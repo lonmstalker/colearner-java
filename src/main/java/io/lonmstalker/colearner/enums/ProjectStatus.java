@@ -1,2 +1,4 @@
-package io.lonmstalker.colearner.enums;public enum ProjectStatus {
+package io.lonmstalker.colearner.enums;
+
+public enum ProjectStatus {
 }
