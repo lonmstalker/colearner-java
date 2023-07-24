@@ -1,4 +1,6 @@
 package io.lonmstalker.colearner.enums;
 
-public enum ProjectType {
+public enum RoleEnum {
+    USER,
+    ADMIN
 }

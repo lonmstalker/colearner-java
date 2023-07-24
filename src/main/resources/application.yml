@@ -11,7 +11,7 @@ spring:
     name: colearner
   messages:
     encoding: UTF-8
-    basename: messages/errors
+    basename: messages/errors,messages/messages
     use-code-as-default-message: true
   datasource:
     username: ${DB_USER:postgres}
@@ -37,3 +37,7 @@ logging:
   level:
     root: ${LOGGING_ROOT:error}
     io.io.lonmstalker: ${LOGGING_PROJECT:info}
+
+app:
+  bot-token: ${BOT_TOKEN:}
+  bot-username: ${BOT_USERNAME:colearner}

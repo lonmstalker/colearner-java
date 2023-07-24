@@ -1,18 +1,14 @@
 package io.lonmstalker.colearner.model;
 
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import io.lonmstalker.colearner.enums.PositionType;
 import io.lonmstalker.colearner.enums.ProjectStatusEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import java.time.OffsetDateTime;
 
@@ -21,8 +17,8 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("proposal_project")
-public class ProposedProject {
+@Table("proposed_project_member")
+public class ProposedProjectMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +27,16 @@ public class ProposedProject {
     @Enumerated(EnumType.ORDINAL)
     private ProjectStatusEnum status;
 
-    @Column(name = "p_type")
     @Enumerated(EnumType.ORDINAL)
-    private ProjectStatusEnum type;
+    private PositionType positionType;
 
-    private int authorId;
+    @Type(StringArrayType.class)
+    private String[] skills;
+
+    private int userId;
+    private int projectId;
+    private int workWeekHours;
     private String title;
     private String description;
-    private OffsetDateTime createdDate;
+    private OffsetDateTime joinedDate;
 }

@@ -1,12 +1,8 @@
 package io.lonmstalker.colearner.model;
 
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import io.lonmstalker.colearner.enums.RoleEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +21,7 @@ public class UserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Lob
     private byte[] icon;
@@ -33,7 +29,9 @@ public class UserInfo {
     @Type(StringArrayType.class)
     private String[] skills;
 
-    private String telegramId;
+    @Enumerated(EnumType.ORDINAL)
+    private RoleEnum role;
+
     private String username;
     private String currentPosition;
     private int age;

@@ -23,8 +23,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <guava.version>32.1.1-jre</guava.version>
-        <openapi.version>2.1.0</openapi.version>
         <spotbugs.version>4.7.3</spotbugs.version>
+        <telegram.version>6.7.0</telegram.version>
         <nullaway.version>0.10.11</nullaway.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hibernate-types.version>2.21.1</hibernate-types.version>
@@ -44,6 +44,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- TELEGRAM -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>${telegram.version}</version>
         </dependency>
 
         <!-- LIBS -->
@@ -174,5 +181,16 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>Maven Central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
 </project>
