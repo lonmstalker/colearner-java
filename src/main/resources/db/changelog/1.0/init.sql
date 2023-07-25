@@ -1,4 +1,4 @@
-create extension IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE TABLE IF NOT EXISTS user_info
 (
@@ -50,5 +50,5 @@ CREATE TABLE IF NOT EXISTS proposed_project_member
 );
 
 CREATE INDEX user_info_data_gin_idx ON user_info USING gin (skills);
-CREATE INDEX proposed_project_title_gin_idx ON proposed_project USING gin (title, description);
-CREATE INDEX proposed_project_member_skills_gin_idx ON proposed_project_member USING gin (skills, title, description);
+CREATE INDEX proposed_project_title_gin_idx ON proposed_project USING gin (title gin_trgm_ops, description gin_trgm_ops);
+CREATE INDEX proposed_project_member_skills_gin_idx ON proposed_project_member USING gin (skills, title gin_trgm_ops, description gin_trgm_ops);

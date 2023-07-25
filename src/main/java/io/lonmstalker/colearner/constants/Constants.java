@@ -1,10 +1,12 @@
 package io.lonmstalker.colearner.constants;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@UtilityClass
-public class Constants {
-    public final String USERNAME_PREFIX = "user-";
-    public final String DASH = "-";
-    public final String SLASH = "/";
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Constants {
+    public static final String USERNAME_PREFIX = "user-";
+    public static final String DASH = "-";
+    public static final String SLASH = "/";
+    public static final String RU_TAG = "ru";
 }

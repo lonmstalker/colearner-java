@@ -1,11 +1,9 @@
 package io.lonmstalker.colearner.exception;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @Getter
-@EqualsAndHashCode(callSuper = true)
 public class ColearnerException extends RuntimeException {
     private final String code;
 

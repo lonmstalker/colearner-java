@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static io.lonmstalker.colearner.constants.Constants.SLASH;
 import static io.lonmstalker.colearner.constants.ErrorCodes.UNKNOWN_COMMAND;
@@ -34,8 +35,10 @@ public class BotHandlerService {
     public BotApiMethod<?> handle(final Update update,
                                   final BotMethodTypeEnum methodType,
                                   final long chatId) {
+        final var startTime = System.nanoTime();
         try {
             final var command = this.getCommand(update, methodType);
+            log.debug("handle command {} for user {}", command.getCommandName(), chatId);
 
             setUserInfo(this.userInfoService.getOrCreate(update, chatId));
             command.checkAccess();
@@ -43,6 +46,9 @@ public class BotHandlerService {
             return command.invoke(update);
         } finally {
             ThreadLocaleStorage.clear();
+
+            final var resultTime = System.nanoTime() - startTime;
+            log.debug("end command. time ms={}, ns={}", TimeUnit.NANOSECONDS.toMillis(resultTime), resultTime);
         }
     }
 
@@ -61,7 +67,7 @@ public class BotHandlerService {
 
         final String command;
         if (message.startsWith(SLASH)) {
-            command = SPACE_SPLITTER.splitToList(message).get(0);
+            command = SPACE_SPLITTER.splitToList(message).get(0).substring(1);
         } else {
             command = ThreadLocaleStorage.getUserInfo().getCurrentPosition();
         }

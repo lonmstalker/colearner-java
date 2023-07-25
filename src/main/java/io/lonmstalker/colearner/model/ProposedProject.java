@@ -1,5 +1,6 @@
 package io.lonmstalker.colearner.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.lonmstalker.colearner.enums.ProjectStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,8 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("proposal_project")
+@Table(name = "proposal_project")
+@SuppressFBWarnings(justification = "Конфликт со spotbugs")
 public class ProposedProject {
 
     @Id

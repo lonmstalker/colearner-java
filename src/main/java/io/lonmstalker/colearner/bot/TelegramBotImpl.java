@@ -1,5 +1,6 @@
 package io.lonmstalker.colearner.bot;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.lonmstalker.colearner.config.properties.AppProperties;
 import io.lonmstalker.colearner.exception.ColearnerException;
 import io.lonmstalker.colearner.exception.SystemColearnerException;
@@ -19,6 +20,7 @@ import static io.lonmstalker.colearner.utils.UpdateUtils.getType;
 
 @Slf4j
 @Component
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2")
 public class TelegramBotImpl extends TelegramLongPollingBot {
     private final MessageHelper messageHelper;
     private final AppProperties appProperties;

@@ -5,7 +5,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
+import static io.lonmstalker.colearner.storage.ThreadLocaleStorage.getLocale;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class MessageHelper  {
                 code,
                 args,
                 defaultMessage,
-                Locale.getDefault()
+                getLocale()
         );
     }
 
@@ -29,7 +29,7 @@ public class MessageHelper  {
                 code,
                 null,
                 defaultMessage,
-                Locale.getDefault()
+                getLocale()
         );
     }
 
@@ -38,7 +38,7 @@ public class MessageHelper  {
                 code,
                 null,
                 null,
-                Locale.getDefault()
+                getLocale()
         );
     }
 }

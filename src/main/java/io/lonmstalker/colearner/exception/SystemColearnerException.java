@@ -1,12 +1,10 @@
 package io.lonmstalker.colearner.exception;
 
-import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
-@EqualsAndHashCode(callSuper = true)
+@Getter
 public class SystemColearnerException extends RuntimeException {
-    String code;
+    private final String code;
 
     public SystemColearnerException(final String code,
                                     final String message) {

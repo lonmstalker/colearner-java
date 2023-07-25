@@ -1,6 +1,7 @@
 package io.lonmstalker.colearner.model;
 
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.lonmstalker.colearner.enums.PositionType;
 import io.lonmstalker.colearner.enums.ProjectStatusEnum;
 import jakarta.persistence.*;
@@ -17,7 +18,8 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("proposed_project_member")
+@Table(name = "proposed_project_member")
+@SuppressFBWarnings(justification = "Конфликт со spotbugs")
 public class ProposedProjectMember {
 
     @Id
