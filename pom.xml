@@ -25,12 +25,12 @@
         <guava.version>32.1.1-jre</guava.version>
         <spotbugs.version>4.7.3</spotbugs.version>
         <telegram.version>6.7.0</telegram.version>
-        <nullaway.version>0.10.11</nullaway.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hibernate-types.version>2.21.1</hibernate-types.version>
-        <checkerframework.version>3.35.0</checkerframework.version>
 
+        <nullaway.version>0.10.11</nullaway.version>
         <errorprone.version>2.20.0</errorprone.version>
+        <checkerframework.version>3.35.0</checkerframework.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <spotbugs-maven-plugin.version>4.7.3.5</spotbugs-maven-plugin.version>
     </properties>
@@ -110,6 +110,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
                     <compilerArgs>
                         <arg>-XDcompilePolicy=simple</arg>
                         <arg>
@@ -117,6 +119,8 @@
                             -Xep:JavaUtilDate:ERROR
                             -Xep:VariableNameSameAsType:ERROR
                             -XepExcludedPaths:.*/src/test/java/.*
+                            -Xep:NullAway:ERROR
+                            -XepOpt:NullAway:AnnotatedPackages=io.lonmstalker.colearner
                         </arg>
                     </compilerArgs>
                     <annotationProcessorPaths>
@@ -135,6 +139,11 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
+                        <path>
+                            <groupId>com.uber.nullaway</groupId>
+                            <artifactId>nullaway</artifactId>
+                            <version>${nullaway.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
@@ -149,8 +158,8 @@
                             <goal>enhance</goal>
                         </goals>
                         <configuration>
-                            <enableLazyInitialization>true</enableLazyInitialization>
                             <enableDirtyTracking>true</enableDirtyTracking>
+                            <enableLazyInitialization>true</enableLazyInitialization>
                             <enableAssociationManagement>true</enableAssociationManagement>
                         </configuration>
                     </execution>
@@ -194,5 +203,16 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Maven Central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>

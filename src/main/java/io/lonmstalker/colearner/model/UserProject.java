@@ -19,6 +19,7 @@ import org.hibernate.annotations.Type;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_project")
+@SuppressWarnings("NullAway")
 @SuppressFBWarnings(justification = "Конфликт со spotbugs")
 public class UserProject {
 

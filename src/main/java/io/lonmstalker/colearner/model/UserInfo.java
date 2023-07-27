@@ -24,6 +24,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_info")
+@SuppressWarnings("NullAway")
 @EqualsAndHashCode(callSuper = true)
 @SuppressFBWarnings(justification = "Конфликт со spotbugs")
 public class UserInfo extends AbstractPersistableEntity<Long> {

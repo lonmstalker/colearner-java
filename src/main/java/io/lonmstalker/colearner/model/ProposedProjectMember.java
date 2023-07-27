@@ -18,6 +18,7 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressWarnings("NullAway")
 @Table(name = "proposed_project_member")
 @SuppressFBWarnings(justification = "Конфликт со spotbugs")
 public class ProposedProjectMember {

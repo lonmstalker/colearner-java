@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @MappedSuperclass
+@SuppressWarnings("NullAway")
 public abstract class AbstractPersistableEntity<T extends Serializable> implements Persistable<T> {
 
     @Transient
