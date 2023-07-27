@@ -1,29 +1,34 @@
 package io.lonmstalker.colearner.builder;
 
+import io.lonmstalker.colearner.builder.interfaces.MessageBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.RequiredArgsConstructor;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+
+import java.io.Serializable;
 
 @RequiredArgsConstructor
-public class TelegramMessageBuilder implements TelegramBotBuilder {
+public class TelegramMessageBuilder<T extends Serializable> implements MessageBuilder<T> {
+    protected ReplyKeyboard keyboard;
+    private final long chatId;
     private final MessageHelper messageHelper;
 
-    public static TelegramMessageBuilder builder(final MessageHelper messageHelper) {
-        return new TelegramMessageBuilder(messageHelper);
+    public static <T extends Serializable> TelegramMessageBuilder<T> builder(final MessageHelper messageHelper,
+                                                                             final long chatId) {
+        return new TelegramMessageBuilder<>(chatId, messageHelper);
     }
 
-    public TelegramReplyKeyboardBotBuilder replyKeyboard() {
-        return new TelegramReplyKeyboardBotBuilder(this.messageHelper);
+    public TelegramReplyKeyboardKeyboardBuilder<T> replyKeyboard() {
+        return new TelegramReplyKeyboardKeyboardBuilder<>(this.messageHelper, this);
     }
 
-    public TelegramInlineKeyboardBotBuilder inlineKeyboard() {
-        return new TelegramInlineKeyboardBotBuilder(this.messageHelper);
+    public TelegramInlineKeyboardKeyboardBuilder<T> inlineKeyboard() {
+        return new TelegramInlineKeyboardKeyboardBuilder<>(this.messageHelper, this);
     }
 
     @Override
-    public ReplyKeyboard build() {
-        return new ReplyKeyboardMarkup();
+    public BotApiMethod<T> build() {
+        return null;
     }
-
 }

@@ -1,19 +1,23 @@
 package io.lonmstalker.colearner.builder;
 
+import io.lonmstalker.colearner.builder.interfaces.MessageBuilder;
+import io.lonmstalker.colearner.builder.interfaces.TelegramKeyboardBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.RequiredArgsConstructor;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class TelegramReplyKeyboardBotBuilder implements TelegramBotBuilder {
+public class TelegramReplyKeyboardKeyboardBuilder<T extends Serializable> implements TelegramKeyboardBuilder<T> {
     final MessageHelper messageHelper;
 
+    private final TelegramMessageBuilder<T> builder;
     private List<KeyboardRow> keyboard;
     private boolean selective;
     private boolean resizeKeyboard;
@@ -21,41 +25,52 @@ public class TelegramReplyKeyboardBotBuilder implements TelegramBotBuilder {
     private boolean isPersistent;
     private String inputFieldPlaceholder;
 
-    public TelegramReplyKeyboardRowBuilder addRow() {
+    public TelegramReplyKeyboardRowBuilder<T> addRow() {
         if (keyboard == null) {
             keyboard = new ArrayList<>();
         }
-        return new TelegramReplyKeyboardRowBuilder(this);
+        return new TelegramReplyKeyboardRowBuilder<>(this);
     }
 
-    public TelegramReplyKeyboardBotBuilder selective(final boolean selective) {
+    public TelegramReplyKeyboardKeyboardBuilder<T> selective(final boolean selective) {
         this.selective = selective;
         return this;
     }
 
-    public TelegramReplyKeyboardBotBuilder resizeKeyboard(final boolean resizeKeyboard) {
+    public TelegramReplyKeyboardKeyboardBuilder<T> resizeKeyboard(final boolean resizeKeyboard) {
         this.resizeKeyboard = resizeKeyboard;
         return this;
     }
 
-    public TelegramReplyKeyboardBotBuilder oneTimeKeyboard(final boolean oneTimeKeyboard) {
+    public TelegramReplyKeyboardKeyboardBuilder<T> oneTimeKeyboard(final boolean oneTimeKeyboard) {
         this.oneTimeKeyboard = oneTimeKeyboard;
         return this;
     }
 
-    public TelegramReplyKeyboardBotBuilder persistent(final boolean persistent) {
+    public TelegramReplyKeyboardKeyboardBuilder<T> persistent(final boolean persistent) {
         this.isPersistent = persistent;
         return this;
     }
 
-    public TelegramReplyKeyboardBotBuilder inputFieldPlaceholder(final String inputFieldPlaceholder) {
+    public TelegramReplyKeyboardKeyboardBuilder<T> inputFieldPlaceholder(final String inputFieldPlaceholder) {
         this.inputFieldPlaceholder = inputFieldPlaceholder;
         return this;
     }
 
     @Override
-    public ReplyKeyboard build() {
-        return ReplyKeyboardMarkup.builder()
+    public BotApiMethod<T> build() {
+        this.setMarkup();
+        return this.builder.build();
+    }
+
+    @Override
+    public MessageBuilder<T> toParentBuilder() {
+        this.setMarkup();
+        return this.builder;
+    }
+
+    private void setMarkup() {
+        this.builder.keyboard = ReplyKeyboardMarkup.builder()
                 .keyboard(this.keyboard)
                 .selective(this.selective)
                 .isPersistent(this.isPersistent)
@@ -66,37 +81,42 @@ public class TelegramReplyKeyboardBotBuilder implements TelegramBotBuilder {
     }
 
     @RequiredArgsConstructor
-    static class TelegramReplyKeyboardRowBuilder implements TelegramBotBuilder {
-        private final TelegramReplyKeyboardBotBuilder builder;
+    static class TelegramReplyKeyboardRowBuilder<T extends Serializable> implements TelegramKeyboardBuilder<T> {
+        private final TelegramReplyKeyboardKeyboardBuilder<T> builder;
         final KeyboardRow row = new KeyboardRow();
 
-        public TelegramReplyKeyboardRowBuilder addRow() {
+        public TelegramReplyKeyboardRowBuilder<T> addRow() {
             this.builder.keyboard.add(this.row);
             return this;
         }
 
-        public TelegramReplyKeyboardRowBuilder addButton(final String code) {
+        public TelegramReplyKeyboardRowBuilder<T> addButton(final String code) {
             this.row.add(new KeyboardButton(this.builder.messageHelper.getMessage(code)));
             return this;
         }
 
-        public TelegramReplyKeyboardButtonBuilder addButton() {
-            return new TelegramReplyKeyboardButtonBuilder(this);
+        public TelegramReplyKeyboardButtonBuilder<T> addButton() {
+            return new TelegramReplyKeyboardButtonBuilder<>(this);
         }
 
         @Override
-        public ReplyKeyboard build() {
+        public BotApiMethod<T> build() {
             this.addRow();
             return builder.build();
+        }
+
+        @Override
+        public MessageBuilder<T> toParentBuilder() {
+            return this.builder.toParentBuilder();
         }
     }
 
     @RequiredArgsConstructor
-    static class TelegramReplyKeyboardButtonBuilder {
-        private final TelegramReplyKeyboardRowBuilder builder;
+    static class TelegramReplyKeyboardButtonBuilder<T extends Serializable> {
+        private final TelegramReplyKeyboardRowBuilder<T> builder;
         private final KeyboardButton keyboardButton = new KeyboardButton();
 
-        public TelegramReplyKeyboardRowBuilder addRow() {
+        public TelegramReplyKeyboardRowBuilder<T> addRow() {
             this.builder.row.add(this.keyboardButton);
             return builder;
         }
