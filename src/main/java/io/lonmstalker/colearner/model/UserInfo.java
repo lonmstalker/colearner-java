@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.hibernate.annotations.Type;
 
 import java.time.OffsetDateTime;
@@ -49,6 +50,7 @@ public class UserInfo extends AbstractPersistableEntity<Long> {
     private String biography;
     private OffsetDateTime createdDate;
 
+    @NonNull
     @Override
     public Long getId() {
         return id;

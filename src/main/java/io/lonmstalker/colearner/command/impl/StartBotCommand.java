@@ -1,22 +1,23 @@
 package io.lonmstalker.colearner.command.impl;
 
 import io.lonmstalker.colearner.command.interfaces.MessagePublicCommand;
-import io.lonmstalker.colearner.helper.MessageHelper;
-import io.lonmstalker.colearner.storage.ThreadLocaleStorage;
+import io.lonmstalker.colearner.helper.ApiHelper;
 import lombok.RequiredArgsConstructor;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.Serializable;
+
+import static io.lonmstalker.colearner.bot.customizer.MainMenuCustomizer.MAIN_MENU_CUSTOMIZER;
 import static io.lonmstalker.colearner.constants.MessageConstants.START_MESSAGE;
+import static io.lonmstalker.colearner.storage.ThreadLocaleStorage.getUserInfo;
 
 @Component
 @RequiredArgsConstructor
 public class StartBotCommand implements MessagePublicCommand {
-    private final MessageHelper messageHelper;
+    private final ApiHelper apiHelper;
 
     @Override
     public String getCommandName() {
@@ -24,11 +25,11 @@ public class StartBotCommand implements MessagePublicCommand {
     }
 
     @Override
-    public BotApiMethod<Message> invoke(@NonNull final Update update) {
-        final var userInfo = ThreadLocaleStorage.getUserInfo();
-        return SendMessage.builder()
-                .chatId(userInfo.getId())
-                .text(this.messageHelper.getMessage(START_MESSAGE))
+    public BotApiMethod<Serializable> invoke(@NonNull final Update update) {
+        return this.apiHelper.builder()
+                .customize(MAIN_MENU_CUSTOMIZER)
+                .sendMessage(getUserInfo().getId())
+                .text(START_MESSAGE)
                 .build();
     }
 }

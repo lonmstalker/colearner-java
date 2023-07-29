@@ -1,10 +1,11 @@
-package io.lonmstalker.colearner.builder;
+package io.lonmstalker.colearner.bot.builder;
 
-import io.lonmstalker.colearner.builder.interfaces.MessageBuilder;
-import io.lonmstalker.colearner.builder.interfaces.TelegramKeyboardBuilder;
+import io.lonmstalker.colearner.bot.interfaces.TelegramApiBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class TelegramReplyKeyboardKeyboardBuilder<T extends Serializable> implements TelegramKeyboardBuilder<T> {
+public class TelegramReplyKeyboardApiBuilder implements TelegramApiBuilder {
     final MessageHelper messageHelper;
 
-    private final TelegramMessageBuilder<T> builder;
+    private final TelegramMessageBuilder builder;
     private List<KeyboardRow> keyboard;
     private boolean selective;
     private boolean resizeKeyboard;
@@ -25,46 +26,51 @@ public class TelegramReplyKeyboardKeyboardBuilder<T extends Serializable> implem
     private boolean isPersistent;
     private String inputFieldPlaceholder;
 
-    public TelegramReplyKeyboardRowBuilder<T> addRow() {
+    public TelegramReplyApiRowBuilder addRow() {
         if (keyboard == null) {
             keyboard = new ArrayList<>();
         }
-        return new TelegramReplyKeyboardRowBuilder<>(this);
+        return new TelegramReplyApiRowBuilder(this);
     }
 
-    public TelegramReplyKeyboardKeyboardBuilder<T> selective(final boolean selective) {
+    public TelegramReplyKeyboardApiBuilder selective(final boolean selective) {
         this.selective = selective;
         return this;
     }
 
-    public TelegramReplyKeyboardKeyboardBuilder<T> resizeKeyboard(final boolean resizeKeyboard) {
+    public TelegramReplyKeyboardApiBuilder resizeKeyboard(final boolean resizeKeyboard) {
         this.resizeKeyboard = resizeKeyboard;
         return this;
     }
 
-    public TelegramReplyKeyboardKeyboardBuilder<T> oneTimeKeyboard(final boolean oneTimeKeyboard) {
+    public TelegramReplyKeyboardApiBuilder oneTimeKeyboard(final boolean oneTimeKeyboard) {
         this.oneTimeKeyboard = oneTimeKeyboard;
         return this;
     }
 
-    public TelegramReplyKeyboardKeyboardBuilder<T> persistent(final boolean persistent) {
+    public TelegramReplyKeyboardApiBuilder persistent(final boolean persistent) {
         this.isPersistent = persistent;
         return this;
     }
 
-    public TelegramReplyKeyboardKeyboardBuilder<T> inputFieldPlaceholder(final String inputFieldPlaceholder) {
+    public TelegramReplyKeyboardApiBuilder inputFieldPlaceholder(final String inputFieldPlaceholder) {
         this.inputFieldPlaceholder = inputFieldPlaceholder;
         return this;
     }
 
+    public ReplyKeyboard buildKeyboard() {
+        this.setMarkup();
+        return this.builder.keyboard;
+    }
+
     @Override
-    public BotApiMethod<T> build() {
+    public BotApiMethod<Serializable> build() {
         this.setMarkup();
         return this.builder.build();
     }
 
     @Override
-    public MessageBuilder<T> toParentBuilder() {
+    public TelegramMessageBuilder toParentBuilder() {
         this.setMarkup();
         return this.builder;
     }
@@ -80,43 +86,44 @@ public class TelegramReplyKeyboardKeyboardBuilder<T extends Serializable> implem
                 .build();
     }
 
-    @RequiredArgsConstructor
-    static class TelegramReplyKeyboardRowBuilder<T extends Serializable> implements TelegramKeyboardBuilder<T> {
-        private final TelegramReplyKeyboardKeyboardBuilder<T> builder;
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class TelegramReplyApiRowBuilder implements TelegramApiBuilder {
+        private final TelegramReplyKeyboardApiBuilder builder;
         final KeyboardRow row = new KeyboardRow();
 
-        public TelegramReplyKeyboardRowBuilder<T> addRow() {
+        public TelegramReplyApiRowBuilder addRow() {
             this.builder.keyboard.add(this.row);
             return this;
         }
 
-        public TelegramReplyKeyboardRowBuilder<T> addButton(final String code) {
+        public TelegramReplyApiRowBuilder addButton(final String code) {
             this.row.add(new KeyboardButton(this.builder.messageHelper.getMessage(code)));
             return this;
         }
 
-        public TelegramReplyKeyboardButtonBuilder<T> addButton() {
-            return new TelegramReplyKeyboardButtonBuilder<>(this);
+        public TelegramReplyKeyboardButtonBuilder addButton() {
+            return new TelegramReplyKeyboardButtonBuilder(this);
         }
 
         @Override
-        public BotApiMethod<T> build() {
+        public BotApiMethod<Serializable> build() {
             this.addRow();
             return builder.build();
         }
 
         @Override
-        public MessageBuilder<T> toParentBuilder() {
-            return this.builder.toParentBuilder();
+        public TelegramReplyKeyboardApiBuilder toParentBuilder() {
+            this.addRow();
+            return this.builder;
         }
     }
 
-    @RequiredArgsConstructor
-    static class TelegramReplyKeyboardButtonBuilder<T extends Serializable> {
-        private final TelegramReplyKeyboardRowBuilder<T> builder;
+    @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class TelegramReplyKeyboardButtonBuilder {
+        private final TelegramReplyApiRowBuilder builder;
         private final KeyboardButton keyboardButton = new KeyboardButton();
 
-        public TelegramReplyKeyboardRowBuilder<T> addRow() {
+        public TelegramReplyApiRowBuilder addRow() {
             this.builder.row.add(this.keyboardButton);
             return builder;
         }
