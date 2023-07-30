@@ -4,6 +4,7 @@ import io.lonmstalker.colearner.bot.interfaces.TelegramApiBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -14,16 +15,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 @RequiredArgsConstructor
 public class TelegramReplyKeyboardApiBuilder implements TelegramApiBuilder {
     final MessageHelper messageHelper;
 
     private final TelegramMessageBuilder builder;
+
+    @Nullable
     private List<KeyboardRow> keyboard;
     private boolean selective;
     private boolean resizeKeyboard;
     private boolean oneTimeKeyboard;
     private boolean isPersistent;
+
+    @Nullable
     private String inputFieldPlaceholder;
 
     public TelegramReplyApiRowBuilder addRow() {
@@ -60,7 +67,7 @@ public class TelegramReplyKeyboardApiBuilder implements TelegramApiBuilder {
 
     public ReplyKeyboard buildKeyboard() {
         this.setMarkup();
-        return this.builder.keyboard;
+        return requireNonNull(this.builder.keyboard);
     }
 
     @Override
@@ -92,7 +99,7 @@ public class TelegramReplyKeyboardApiBuilder implements TelegramApiBuilder {
         final KeyboardRow row = new KeyboardRow();
 
         public TelegramReplyApiRowBuilder addRow() {
-            this.builder.keyboard.add(this.row);
+            requireNonNull(this.builder.keyboard).add(this.row);
             return this;
         }
 

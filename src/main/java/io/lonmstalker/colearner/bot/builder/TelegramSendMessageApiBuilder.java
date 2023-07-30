@@ -4,6 +4,7 @@ import io.lonmstalker.colearner.bot.interfaces.MessageBuilder;
 import io.lonmstalker.colearner.bot.interfaces.TelegramApiBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
@@ -15,14 +16,31 @@ import java.util.List;
 public class TelegramSendMessageApiBuilder implements TelegramApiBuilder {
     final MessageHelper messageHelper;
 
+    @Nullable
     private Integer messageThreadId;
+
+    @Nullable
     private String text;
+
+    @Nullable
     private String parseMode;
+
+    @Nullable
     private Boolean disableWebPagePreview;
+
+    @Nullable
     private Boolean disableNotification;
+
+    @Nullable
     private Integer replyToMessageId;
+
+    @Nullable
     private List<MessageEntity> entities;
+
+    @Nullable
     private Boolean allowSendingWithoutReply;
+
+    @Nullable
     private Boolean protectContent;
 
     private final long chatId;

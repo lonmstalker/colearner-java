@@ -4,6 +4,7 @@ import io.lonmstalker.colearner.bot.interfaces.TelegramApiBuilder;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -12,10 +13,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 @RequiredArgsConstructor
 public class TelegramInlineKeyboardApiBuilder implements TelegramApiBuilder {
     final MessageHelper messageHelper;
     private final TelegramMessageBuilder builder;
+
+    @Nullable
     private List<List<InlineKeyboardButton>> keyboard;
 
     public TelegramInlineApiRowBuilder addRow() {
@@ -50,7 +55,7 @@ public class TelegramInlineKeyboardApiBuilder implements TelegramApiBuilder {
         final List<InlineKeyboardButton> row = new ArrayList<>();
 
         public TelegramInlineApiRowBuilder addRow() {
-            this.builder.keyboard.add(this.row);
+            requireNonNull(this.builder.keyboard).add(this.row);
             return this;
         }
 

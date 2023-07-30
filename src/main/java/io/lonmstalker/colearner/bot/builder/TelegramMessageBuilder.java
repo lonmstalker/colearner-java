@@ -5,6 +5,7 @@ import io.lonmstalker.colearner.bot.interfaces.MessageBuilder;
 import io.lonmstalker.colearner.exception.SystemColearnerException;
 import io.lonmstalker.colearner.helper.MessageHelper;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
@@ -14,7 +15,11 @@ import static io.lonmstalker.colearner.constants.ErrorCodes.SERVER_ERROR;
 
 @RequiredArgsConstructor
 public class TelegramMessageBuilder implements MessageBuilder {
+
+    @Nullable
     protected ReplyKeyboard keyboard;
+
+    @Nullable
     protected BotApiMethod<?> apiMethod;
 
     private final MessageHelper messageHelper;
