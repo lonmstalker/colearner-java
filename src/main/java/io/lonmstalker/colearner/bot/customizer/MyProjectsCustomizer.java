@@ -10,8 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import static io.lonmstalker.colearner.constants.MessageConstants.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class MainMenuCustomizer implements BuilderCustomizer {
-    public static MainMenuCustomizer MAIN_MENU_CUSTOMIZER = new MainMenuCustomizer();
+public final class MyProjectsCustomizer implements BuilderCustomizer {
+    public static MyProjectsCustomizer MY_PROJECTS_CUSTOMIZER = new MyProjectsCustomizer();
 
     @Nullable
     private ReplyKeyboard keyboard;
@@ -27,11 +27,11 @@ public final class MainMenuCustomizer implements BuilderCustomizer {
                 .resizeKeyboard(true)
                 .selective(true)
                 .addRow()
-                .addButton(PROPOSAL_PROJECTS_BUTTON)
-                .addButton(MY_PROJECT_BUTTON)
+                .addButton(CREATE_PROJECT_BUTTON)
                 .addRow()
-                .addButton(APPLICANTS_BUTTON)
-                .addButton(ABOUT_ME_BUTTON)
+                .addButton(GET_ARCHIVE_MY_PROJECTS)
+                .addRow()
+                .addButton(GET_MY_ACTIVE_PROJECTS)
                 .toParentBuilder()
                 .buildKeyboard();
         builder.keyboard(this.keyboard);

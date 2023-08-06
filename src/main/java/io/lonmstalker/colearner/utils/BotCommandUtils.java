@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BotCommandUtils {
 
+    // todo: поддержка других языков
     public static Map<String, BotCommand<?>> buildCommands(final List<BotCommand<?>> commands) {
         return commands.stream()
                 .collect(Collectors.toMap(

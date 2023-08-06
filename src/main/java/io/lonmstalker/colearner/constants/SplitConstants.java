@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import static io.lonmstalker.colearner.constants.Constants.DASH;
+import static io.lonmstalker.colearner.constants.Constants.INVISIBLE;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

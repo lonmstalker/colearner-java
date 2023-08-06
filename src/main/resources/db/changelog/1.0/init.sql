@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS user_info
 (
     id               BIGINT PRIMARY KEY,
     username         VARCHAR(255) UNIQUE                      NOT NULL,
-    current_position VARCHAR(100)             DEFAULT 'START' NOT NULL,
+    current_position VARCHAR(100)             DEFAULT 'start' NOT NULL,
     age              INTEGER                                  NULL,
     role             INTEGER                  DEFAULT 0       NOT NULL,
     experience_years INTEGER                                  NOT NULL,

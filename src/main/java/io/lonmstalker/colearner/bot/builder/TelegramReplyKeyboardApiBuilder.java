@@ -100,7 +100,7 @@ public class TelegramReplyKeyboardApiBuilder implements TelegramApiBuilder {
 
         public TelegramReplyApiRowBuilder addRow() {
             requireNonNull(this.builder.keyboard).add(this.row);
-            return this;
+            return new TelegramReplyApiRowBuilder(builder);
         }
 
         public TelegramReplyApiRowBuilder addButton(final String code) {
